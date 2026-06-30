@@ -518,13 +518,27 @@ export default function App() {
     if (descargando || !pdfRef.current) return;
     setDescargando(true);
     try {
+      // Esperar a que la tipografía esté lista para que el texto no se desborde
+      if (document.fonts && document.fonts.ready) {
+        try { await document.fonts.ready; } catch { /* noop */ }
+      }
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const W = pdf.internal.pageSize.getWidth();
       const H = pdf.internal.pageSize.getHeight();
       const laminas = pdfRef.current.querySelectorAll('[data-pdf-slide]');
       for (let n = 0; n < laminas.length; n++) {
-        const canvas = await html2canvas(laminas[n], { scale: 2, backgroundColor: '#ffffff', useCORS: true });
-        const img = canvas.toDataURL('image/jpeg', 0.92);
+        const el = laminas[n];
+        const canvas = await html2canvas(el, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          useCORS: true,
+          logging: false,
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+          windowWidth: el.offsetWidth,
+          windowHeight: el.offsetHeight,
+        });
+        const img = canvas.toDataURL('image/jpeg', 0.95);
         if (n > 0) pdf.addPage();
         pdf.addImage(img, 'JPEG', 0, 0, W, H);
       }
@@ -637,8 +651,8 @@ function PdfDeck({ pdfRef }) {
     <div
       ref={pdfRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 -z-50 opacity-0"
-      style={{ width: 920 }}
+      className="pointer-events-none fixed top-0 bg-white"
+      style={{ width: 920, left: -10000 }}
     >
       {SLIDES.map((slide, idx) => {
         const c = COLORS[slide.color];
