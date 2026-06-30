@@ -26,7 +26,7 @@ function Lista({ items, color }) {
   return (
     <ul className="space-y-3">
       {items.map((t, i) => (
-        <li key={i} className="flex gap-3 text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <li key={i} className="flex gap-3 text-base leading-relaxed text-slate-600 md:text-lg">
           <span className={`mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full ${c.dot}`} />
           <span>{t}</span>
         </li>
@@ -37,7 +37,7 @@ function Lista({ items, color }) {
 
 function Analogia({ children }) {
   return (
-    <blockquote className="mt-4 rounded-r-xl border-l-4 border-teal-400 bg-teal-50/70 px-5 py-2.5 text-[15px] italic text-slate-600">
+    <blockquote className="mt-5 rounded-r-xl border-l-4 border-teal-400 bg-teal-50/70 px-6 py-3.5 text-base italic text-slate-600 md:text-lg">
       {children}
     </blockquote>
   );
@@ -66,9 +66,13 @@ function CvssBadge({ cvss, severidad, critica }) {
 
 function Captura({ src, alt, pie }) {
   return (
-    <figure className="mt-3">
-      <img src={src} alt={alt} className="mx-auto max-h-[32vh] w-auto rounded-xl border border-slate-200 shadow-lg" />
-      <figcaption className="mt-1.5 text-center text-xs text-slate-400">{pie}</figcaption>
+    <figure className="m-0">
+      <img
+        src={src}
+        alt={alt}
+        className="mx-auto h-auto w-full max-h-[66vh] rounded-xl border border-slate-200 object-contain shadow-lg"
+      />
+      <figcaption className="mt-2 text-center text-xs text-slate-400">{pie}</figcaption>
     </figure>
   );
 }
@@ -78,6 +82,20 @@ function Codigo({ children }) {
     <code className="rounded-md bg-slate-900 px-2 py-1 font-mono text-[13px] font-medium text-teal-300">
       {children}
     </code>
+  );
+}
+
+// Diapositiva de ataque: texto a la izquierda, captura grande a la derecha
+function AtaqueSlide({ badge, descripcion, img, alt, analogia, pie = 'Evidencia — DVWA, nivel Low' }) {
+  return (
+    <div className="grid items-center gap-8 md:grid-cols-[5fr_6fr] md:gap-12">
+      <div className="space-y-5">
+        {badge}
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">{descripcion}</p>
+        <Analogia>{analogia}</Analogia>
+      </div>
+      <Captura src={img} alt={alt} pie={pie} />
+    </div>
   );
 }
 
@@ -146,11 +164,11 @@ function MapaCalor() {
 function Tabla({ head, rows }) {
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-      <table className="w-full border-collapse text-left text-[13px] md:text-sm">
+      <table className="w-full border-collapse text-left text-sm md:text-base">
         <thead className="bg-teal-800 text-white">
           <tr>
             {head.map((h, i) => (
-              <th key={i} className="px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide">{h}</th>
+              <th key={i} className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">{h}</th>
             ))}
           </tr>
         </thead>
@@ -158,7 +176,7 @@ function Tabla({ head, rows }) {
           {rows.map((r, i) => (
             <tr key={i} className="even:bg-slate-50/60">
               {r.map((cell, j) => (
-                <td key={j} className="px-3 py-2.5 align-top text-slate-600">{cell}</td>
+                <td key={j} className="px-4 py-3 align-top text-slate-600">{cell}</td>
               ))}
             </tr>
           ))}
@@ -181,7 +199,7 @@ const SLIDES = [
     eyebrow: 'Sección 01 · Resumen', titulo: '¿Quiénes son VetAmigos?',
     render: (c) => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           Una <strong className="text-slate-800">veterinaria y tienda de mascotas (petshop) que funciona por
           internet</strong>. Nació en Valparaíso en 2019 como una clínica de barrio y hoy atiende clientes de
           todo Chile desde su página web. Combina dos negocios en un mismo sitio:
@@ -210,7 +228,7 @@ const SLIDES = [
     eyebrow: 'Sección 01 · Resumen', titulo: '¿Por qué esta auditoría?',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           VetAmigos guarda tres grandes grupos de información, y los tres son <strong className="text-slate-800">delicados</strong>:
         </p>
         <div className="mt-4">
@@ -223,7 +241,7 @@ const SLIDES = [
             ]}
           />
         </div>
-        <p className="mt-5 text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="mt-5 text-base leading-relaxed text-slate-600 md:text-lg">
           El portal se construyó "sobre la marcha" y nunca se revisó a fondo. Por eso nos contrataron como
           <strong className="text-slate-800"> auditores de seguridad</strong>: buscar sus debilidades —en un
           ambiente de prueba— antes de que lo haga un atacante.
@@ -241,7 +259,7 @@ const SLIDES = [
     eyebrow: 'Secciones 02–04', titulo: 'Los tres ataques de prueba',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           Sobre <strong className="text-slate-800">DVWA</strong> (una aplicación de práctica, en un entorno
           controlado y autorizado) probamos tres ataques. Los tres comparten <strong className="text-slate-800">la
           misma causa raíz</strong>: el portal mezcla los datos que escribe el usuario con sus propias instrucciones,
@@ -275,20 +293,13 @@ const SLIDES = [
     group: 'Ataques encontrados', color: 'rose', icon: Database, categoria: 'Ataque',
     eyebrow: 'Sección 02 · Ataque 1', titulo: 'Inyección SQL',
     render: () => (
-      <>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <CvssBadge cvss="9.8" severidad="Crítica" critica />
-          <p className="text-[15px] leading-relaxed text-slate-600">
-            En el campo "User ID" escribimos <Codigo>' OR '1'='1</Codigo> y el portal nos devolvió
-            <strong className="text-slate-800"> la lista completa de usuarios</strong>, en vez de un solo cliente.
-          </p>
-        </div>
-        <Captura src={sqliImg} alt="Evidencia de inyección SQL en DVWA" pie="Evidencia — DVWA, nivel Low" />
-        <Analogia>
-          Es como pedir la ficha de <strong>un</strong> cliente y que el sistema entregue el listado completo
-          de las 18.000 personas registradas. Esa información nunca debería salir así.
-        </Analogia>
-      </>
+      <AtaqueSlide
+        badge={<CvssBadge cvss="9.8" severidad="Crítica" critica />}
+        img={sqliImg}
+        alt="Evidencia de inyección SQL en DVWA"
+        descripcion={<>En el campo "User ID" escribimos <Codigo>' OR '1'='1</Codigo> y el portal nos devolvió <strong className="text-slate-800">la lista completa de usuarios</strong>, en vez de un solo cliente.</>}
+        analogia={<>Es como pedir la ficha de <strong>un</strong> cliente y que el sistema entregue el listado completo de las 18.000 personas registradas. Esa información nunca debería salir así.</>}
+      />
     ),
   },
   /* 6 · XSS */
@@ -296,20 +307,13 @@ const SLIDES = [
     group: 'Ataques encontrados', color: 'rose', icon: Code2, categoria: 'Ataque',
     eyebrow: 'Sección 03 · Ataque 2', titulo: 'XSS reflejado',
     render: () => (
-      <>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <CvssBadge cvss="6.1" severidad="Media" />
-          <p className="text-[15px] leading-relaxed text-slate-600">
-            En el campo "What's your name?" escribimos <Codigo>{`<script>alert('Jean')</script>`}</Codigo> y el
-            navegador <strong className="text-slate-800">ejecutó el código</strong> en vez de mostrarlo como texto.
-          </p>
-        </div>
-        <Captura src={xssImg} alt="Evidencia de XSS reflejado en DVWA" pie="Evidencia — DVWA, nivel Low" />
-        <Analogia>
-          Necesita un <strong>cómplice involuntario</strong>: el atacante debe convencer a un cliente de hacer
-          clic en un enlace trampa. Si nadie cae, el ataque no ocurre. Por eso es "Media" y no crítica.
-        </Analogia>
-      </>
+      <AtaqueSlide
+        badge={<CvssBadge cvss="6.1" severidad="Media" />}
+        img={xssImg}
+        alt="Evidencia de XSS reflejado en DVWA"
+        descripcion={<>En el campo "What's your name?" escribimos <Codigo>{`<script>alert('Jean')</script>`}</Codigo> y el navegador <strong className="text-slate-800">ejecutó el código</strong> en vez de mostrarlo como texto.</>}
+        analogia={<>Necesita un <strong>cómplice involuntario</strong>: el atacante debe convencer a un cliente de hacer clic en un enlace trampa. Si nadie cae, el ataque no ocurre. Por eso es "Media" y no crítica.</>}
+      />
     ),
   },
   /* 7 · Comandos */
@@ -317,20 +321,13 @@ const SLIDES = [
     group: 'Ataques encontrados', color: 'rose', icon: Terminal, categoria: 'Ataque',
     eyebrow: 'Sección 04 · Ataque 3', titulo: 'Inyección de comandos',
     render: () => (
-      <>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <CvssBadge cvss="10.0" severidad="Crítica" critica />
-          <p className="text-[15px] leading-relaxed text-slate-600">
-            En el campo "Enter an IP address" escribimos <Codigo>127.0.0.1; cat /etc/passwd</Codigo> y el
-            servidor <strong className="text-slate-800">ejecutó nuestra orden</strong>, mostrando un archivo interno del sistema.
-          </p>
-        </div>
-        <Captura src={comandosImg} alt="Evidencia de inyección de comandos en DVWA" pie="Evidencia — DVWA, nivel Low" />
-        <Analogia>
-          La nota máxima posible (10.0). Aquí el atacante deja de solo ver datos: pasa a <strong>dar órdenes
-          directas al servidor</strong>. Son las llaves de todo el negocio.
-        </Analogia>
-      </>
+      <AtaqueSlide
+        badge={<CvssBadge cvss="10.0" severidad="Crítica" critica />}
+        img={comandosImg}
+        alt="Evidencia de inyección de comandos en DVWA"
+        descripcion={<>En el campo "Enter an IP address" escribimos <Codigo>127.0.0.1; cat /etc/passwd</Codigo> y el servidor <strong className="text-slate-800">ejecutó nuestra orden</strong>, mostrando un archivo interno del sistema.</>}
+        analogia={<>La nota máxima posible (10.0). Aquí el atacante deja de solo ver datos: pasa a <strong>dar órdenes directas al servidor</strong>. Son las llaves de todo el negocio.</>}
+      />
     ),
   },
   /* 8 · Activos */
@@ -339,7 +336,7 @@ const SLIDES = [
     eyebrow: 'Sección 05 · Activos', titulo: 'Lo que hay que proteger',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           Un <strong className="text-slate-800">activo de información</strong> es todo lo que tiene valor y conviene
           proteger. Antes de decidir qué arreglar primero, hay que tener claro qué estamos cuidando:
         </p>
@@ -369,7 +366,7 @@ const SLIDES = [
     eyebrow: 'Sección 06 · Matriz', titulo: 'Matriz de riesgo',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           <strong className="text-slate-800">Riesgo = Probabilidad × Impacto.</strong> Cruzando lo que demostramos
           en los ataques con los activos de VetAmigos, ordenamos cinco riesgos de mayor a menor:
         </p>
@@ -398,7 +395,7 @@ const SLIDES = [
     eyebrow: 'Sección 06 · Mapa de calor', titulo: 'Mapa de calor',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           Cada falla se ubica cruzando su probabilidad (columnas) con su impacto (filas). Mientras más arriba y
           más a la derecha, <strong className="text-slate-800">más rojo y más urgente</strong>.
         </p>
@@ -412,7 +409,7 @@ const SLIDES = [
     eyebrow: 'Sección 07 · Controles', titulo: 'Cómo se defiende VetAmigos',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           Para cada falla hay dos tipos de medida: <strong className="text-slate-800">prevención</strong> (evitar que
           la puerta exista) y <strong className="text-slate-800">mitigación</strong> (candados extra por si igual la
           encuentran). Se apoyan en marcos reconocidos: OWASP, CIS y NIST.
@@ -440,7 +437,7 @@ const SLIDES = [
     eyebrow: 'Sección 08 · Recuperación', titulo: 'Si algo igual sale mal',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           Ningún sistema es 100% seguro. Por eso VetAmigos necesita un <strong className="text-slate-800">plan de
           recuperación ante desastres</strong>. Si un ataque tiene éxito, este es el orden de acciones:
         </p>
@@ -471,7 +468,7 @@ const SLIDES = [
     eyebrow: 'Conclusión del informe', titulo: 'La seguridad es un hábito',
     render: () => (
       <>
-        <p className="text-[15px] leading-relaxed text-slate-600 md:text-base">
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
           La auditoría queda completa: se <strong className="text-slate-800">demostraron</strong> tres fallas reales,
           se <strong className="text-slate-800">midió</strong> su gravedad y se <strong className="text-slate-800">ordenaron</strong> por
           urgencia, se propusieron <strong className="text-slate-800">medidas</strong> para prevenirlas y reducir su daño, y un
@@ -539,7 +536,7 @@ export default function App() {
 
   return (
     <>
-    <div className="flex h-screen flex-col overflow-hidden bg-slate-50 text-slate-700 print:hidden">
+    <div className="flex h-screen flex-col overflow-hidden bg-white text-slate-700 print:hidden">
       {/* Barra de progreso superior */}
       <div className="fixed inset-x-0 top-0 z-30 h-1 bg-slate-200">
         <div className={`h-full ${c.bar} transition-all duration-300`} style={{ width: `${((i + 1) / total) * 100}%` }} />
@@ -573,27 +570,24 @@ export default function App() {
         </div>
       </header>
 
-      {/* Diapositiva */}
-      <main className="flex min-h-0 flex-1 items-center justify-center px-3 pb-4 md:px-6">
-        <article className="flex max-h-full w-full max-w-7xl flex-col overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-200/70">
-          <div className={`h-1.5 w-full flex-shrink-0 ${c.bar}`} />
-          {slide.portada ? (
-            <Portada />
-          ) : (
-            <div className="min-h-0 overflow-y-auto px-8 py-6 md:px-16 md:py-8">
-              <div className="mb-5 flex items-center gap-3">
-                <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${c.iconBg}`}>
-                  <Icono className={`h-6 w-6 ${c.icon}`} />
-                </span>
-                <div>
-                  <p className={`text-[11px] font-bold uppercase tracking-widest ${c.icon} opacity-80`}>{slide.eyebrow}</p>
-                  <h1 className="text-2xl font-black tracking-tight text-slate-900 md:text-3xl">{slide.titulo}</h1>
-                </div>
+      {/* Diapositiva — a pantalla completa, sin tarjeta */}
+      <main className="flex min-h-0 flex-1 items-center justify-center px-6 pb-3 md:px-14 lg:px-20">
+        {slide.portada ? (
+          <Portada />
+        ) : (
+          <div className="mx-auto flex max-h-full w-full max-w-[1600px] flex-col justify-center overflow-y-auto py-2">
+            <div className="mb-7 flex items-center gap-4">
+              <span className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl ${c.iconBg}`}>
+                <Icono className={`h-7 w-7 ${c.icon}`} />
+              </span>
+              <div>
+                <p className={`text-sm font-bold uppercase tracking-widest ${c.icon} opacity-80`}>{slide.eyebrow}</p>
+                <h1 className="text-3xl font-black tracking-tight text-slate-900 md:text-4xl lg:text-5xl">{slide.titulo}</h1>
               </div>
-              {slide.render(c)}
             </div>
-          )}
-        </article>
+            {slide.render(c)}
+          </div>
+        )}
       </main>
 
       {/* Navegación */}
