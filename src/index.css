@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+:root {
+  font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+/* Exportación a PDF (impresión del navegador) */
+@media print {
+  @page {
+    size: A4 portrait;
+    /* Márgenes pequeños = contenido ancho, aprovecha los costados */
+    margin: 8mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Conservar los colores (barras de acento, mapa de calor, chips) */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Cada diapositiva ocupa exactamente una página y no se parte */
+  .print-slide {
+    box-sizing: border-box;
+    height: 281mm;            /* alto de A4 menos los márgenes */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-slide:not(:last-child) {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  /* Las capturas nunca empujan el contenido fuera de la página */
+  .print-slide img {
+    max-height: 105mm !important;
+    width: auto !important;
+    object-fit: contain;
+  }
+}
